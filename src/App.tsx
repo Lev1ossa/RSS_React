@@ -76,7 +76,6 @@ export class App extends Component {
       <>
         <main className={styles.main}>
           <section className={styles.search_block}>
-            <ErrorButton></ErrorButton>
             <form className={styles.search_form}>
               <label className={styles.search_label} htmlFor="search_input">
                 What do you want to search?
@@ -96,6 +95,7 @@ export class App extends Component {
                 Search
               </button>
             </form>
+            <ErrorButton />
           </section>
           <section className={styles.result_block}>
             {this.state.isLoading ? (
