@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: gray;
+}
+
+button {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 60px;
+  height: 20px;
+}
+
+.search_block,
+.result_block {
+  display: flex;
+  max-width: 70%;
+  margin: 10px auto;
+  justify-content: space-between;
+
+}
+
