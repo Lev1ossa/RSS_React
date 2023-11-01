@@ -23,12 +23,7 @@ export class App extends Component {
       isLoading: true,
     });
     this.setLocalStorageValue();
-    fetch(`https://swapi.dev/api/people/?search=${this.state.searchValue}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    this.getApiData()
       .then((response) => response.json())
       .then((result: ResultResponse) =>
         this.setState({
@@ -56,12 +51,7 @@ export class App extends Component {
     this.setState({
       isLoading: true,
     });
-    fetch(`https://swapi.dev/api/people/?search=${this.state.searchValue}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    this.getApiData()
       .then((response) => response.json())
       .then((result: ResultResponse) =>
         this.setState({
@@ -69,6 +59,18 @@ export class App extends Component {
           results: result.results,
         })
       );
+  }
+
+  getApiData() {
+    return fetch(
+      `https://swapi.dev/api/people/?search=${this.state.searchValue}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 
   render() {
