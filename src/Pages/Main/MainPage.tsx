@@ -30,12 +30,15 @@ export function MainPage() {
   const [currentPage, setCurrentPage] = useState(
     Number(queryParameters.get('page')) || DEFAULT_MIN_PAGE
   );
+  const [detailedProductID, setDetailedProductID] = useState(
+    Number(queryParameters.get('details')) || 0
+  );
 
   const updateProducts = () => {
     setIsLoading(true);
     const searchValue = getLocalStorageSearchvalue();
-    const { limit } = searchResults;
-    getApiData(searchValue, currentPage, limit)
+    // const { limit } = searchResults;
+    getApiData(searchValue, currentPage, searchLimit)
       .then((response) => response.json())
       .then((result: IResultResponse) => {
         setIsLoading(false);
@@ -52,6 +55,8 @@ export function MainPage() {
   const updateQuery = (queryParam: string, queryValue: number) => {
     if (queryParam === 'page' && queryValue === DEFAULT_MIN_PAGE) {
       queryParameters.delete('page');
+    } else if (queryParam === 'details' && queryValue === 0) {
+      queryParameters.delete('details');
     } else {
       queryParameters.set(`${queryParam}`, queryValue.toString());
     }
@@ -72,6 +77,11 @@ export function MainPage() {
     setSearchLimit(limit);
   };
 
+  const detailedProductChangeHandler = (id: number) => {
+    setDetailedProductID(id);
+    updateQuery('details', id);
+  };
+
   useEffect(() => {
     updateQuery('page', currentPage);
     updateProducts();
@@ -90,7 +100,9 @@ export function MainPage() {
             currentPage={currentPage}
             handlePageChange={handlePageChange}
             handleLimitChange={handleLimitChange}
+            detailedProductChangeHandler={detailedProductChangeHandler}
             searchLimit={searchLimit}
+            detailedProductID={detailedProductID}
           />
         )}
       </main>

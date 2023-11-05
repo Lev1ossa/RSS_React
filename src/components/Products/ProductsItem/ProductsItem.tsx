@@ -1,10 +1,16 @@
 import styles from './ProductsItem.module.scss';
 import { ResultItemType } from '../../../types/types';
 
-export function ProductsItem(props: { item: ResultItemType }) {
-  const { item } = props;
+export function ProductsItem(props: {
+  item: ResultItemType;
+  detailedProductChangeHandler: (id: number) => void;
+}) {
+  const { item, detailedProductChangeHandler } = props;
   return (
-    <div className={styles.result_item}>
+    <div
+      className={styles.result_item}
+      onClick={() => detailedProductChangeHandler(item.id)}
+    >
       <div className={styles.imageContainer}>
         <img
           className={styles.image}

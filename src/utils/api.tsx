@@ -16,3 +16,12 @@ export const getApiData = (
     }
   );
 };
+
+export const getProductByID = (productID: number) => {
+  return fetch(`https://dummyjson.com/products/${productID}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};

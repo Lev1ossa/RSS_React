@@ -8,14 +8,18 @@ export function Products(props: {
   currentPage: number;
   handlePageChange: (page: number) => void;
   handleLimitChange: (limit: number) => void;
+  detailedProductChangeHandler: (id: number) => void;
   searchLimit: number;
+  detailedProductID: number;
 }) {
   const {
     searchResults,
     currentPage,
     handlePageChange,
     handleLimitChange,
+    detailedProductChangeHandler,
     searchLimit,
+    detailedProductID,
   } = props;
   const { limit: itemsPerPage, total: totalItems } = searchResults;
   return (
@@ -30,7 +34,11 @@ export function Products(props: {
             totalItems={totalItems}
             searchLimit={searchLimit}
           />
-          <ProductsContainer searchResults={searchResults} />
+          <ProductsContainer
+            searchResults={searchResults}
+            detailedProductID={detailedProductID}
+            detailedProductChangeHandler={detailedProductChangeHandler}
+          />
         </>
       ) : (
         <p className={styles.message}>Nothing found, try again!</p>
