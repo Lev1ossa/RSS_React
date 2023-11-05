@@ -37,7 +37,6 @@ export function MainPage() {
   const updateProducts = () => {
     setIsLoading(true);
     const searchValue = getLocalStorageSearchvalue();
-    // const { limit } = searchResults;
     getApiData(searchValue, currentPage, searchLimit)
       .then((response) => response.json())
       .then((result: IResultResponse) => {
