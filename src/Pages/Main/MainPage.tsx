@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { ResultItemsType, ResultResponse } from '../../types/types';
 import {
   getLocalStorageSearchvalue,
@@ -7,10 +8,11 @@ import {
 import { getApiData } from '../../utils/api';
 import { Search } from '../../components/Search/Search';
 import { Products } from '../../components/Products/Products';
-import styles from './Main.module.scss';
 import { Loader } from '../../components/Loader/Loader';
 
-export function Main() {
+import styles from './MainPage.module.scss';
+
+export function MainPage() {
   const [searchResults, setSearchResults] = useState<ResultItemsType>([]);
   const [isLoading, setIsLoading] = useState(false);
 
