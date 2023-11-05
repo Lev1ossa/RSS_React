@@ -11,9 +11,15 @@ export function ProductsContainer(props: {
 }) {
   const { searchResults, detailedProductID, detailedProductChangeHandler } =
     props;
+
+  const closeDetailedHandler = () => {
+    if (detailedProductID !== 0) {
+      detailedProductChangeHandler(0);
+    }
+  };
   return (
     <div className={styles.results}>
-      <div className={styles.result_container}>
+      <div className={styles.result_container} onClick={closeDetailedHandler}>
         {searchResults.products.map((item: ResultItemType) => {
           return (
             <ProductsItem

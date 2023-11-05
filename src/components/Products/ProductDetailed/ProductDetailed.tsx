@@ -9,14 +9,17 @@ export function ProductsDetailed(props: {
   detailedProductChangeHandler: (id: number) => void;
 }) {
   const { detailedProductID, detailedProductChangeHandler } = props;
+  const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState<ResultItemType | undefined>();
 
   useEffect(() => {
     if (detailedProductID !== 0) {
+      setIsLoading(true);
       getProductByID(detailedProductID)
         .then((response) => response.json())
         .then((result: ResultItemType) => {
           setProduct(result);
+          setIsLoading(false);
         });
     }
   }, [detailedProductID]);
@@ -33,7 +36,7 @@ export function ProductsDetailed(props: {
           : styles.item_detailed
       }
     >
-      {product ? (
+      {product && !isLoading ? (
         <>
           <button type="button" onClick={closeDetailedHandler}>
             Close
