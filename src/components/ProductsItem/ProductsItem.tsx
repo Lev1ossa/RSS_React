@@ -1,7 +1,7 @@
-import styles from './ResultItem.module.scss';
+import styles from './ProductsItem.module.scss';
 import { ResultItemType } from '../../types/types';
 
-export function ResultItem(props: { item: ResultItemType }) {
+export function ProductsItem(props: { item: ResultItemType }) {
   const { item } = props;
   return (
     <div className={styles.result_item}>

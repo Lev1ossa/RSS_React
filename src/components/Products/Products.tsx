@@ -1,15 +1,15 @@
 import { ResultItemType, ResultItemsType } from '../../types/types';
-import { ResultItem } from '../ResultItem/ResultItem';
-import styles from './Results.module.scss';
+import { ProductsItem } from '../ProductsItem/ProductsItem';
+import styles from './Products.module.scss';
 
-export function Results(props: { searchResults: ResultItemsType }) {
+export function Products(props: { searchResults: ResultItemsType }) {
   const { searchResults } = props;
   return (
     <section className={styles.result_block}>
       {searchResults.length ? (
         <div className={styles.result_container}>
           {searchResults.map((item: ResultItemType) => {
-            return <ResultItem item={item} key={item.id} />;
+            return <ProductsItem item={item} key={item.id} />;
           })}
         </div>
       ) : (

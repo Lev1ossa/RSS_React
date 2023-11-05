@@ -7,7 +7,7 @@ import {
   getLocalStorageSearchvalue,
   setLocalStorageSearchValue,
 } from '../../utils/localStorage';
-import { Results } from '../Results/Results';
+import { Products } from '../Products/Products';
 
 export function App() {
   const [searchResults, setSearchResults] = useState<ResultItemsType>([]);
@@ -39,7 +39,7 @@ export function App() {
     <>
       <main className={styles.main}>
         <Search searchHandler={searchHandler} />
-        {isLoading ? 'Loading!!!' : <Results searchResults={searchResults} />}
+        {isLoading ? 'Loading!!!' : <Products searchResults={searchResults} />}
       </main>
     </>
   );
