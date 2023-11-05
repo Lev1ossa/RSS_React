@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { ResultItemsType, ResultResponse } from '../../types/types';
+import { IResultResponse } from '../../types/types';
 import {
   getLocalStorageSearchvalue,
   setLocalStorageSearchValue,
@@ -13,36 +13,66 @@ import { Loader } from '../../components/Loader/Loader';
 import styles from './MainPage.module.scss';
 
 export function MainPage() {
-  const [searchResults, setSearchResults] = useState<ResultItemsType>([]);
+  const [searchLimit, setSearchLimit] = useState(10);
+  const [searchResults, setSearchResults] = useState<IResultResponse>({
+    limit: searchLimit,
+    skip: 0,
+    total: 0,
+    products: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const searchHandler = (searchValue: string) => {
+  const updateProducts = () => {
     setIsLoading(true);
-    setLocalStorageSearchValue(searchValue);
-    getApiData(searchValue)
+    const searchValue = getLocalStorageSearchvalue();
+    const { limit } = searchResults;
+    getApiData(searchValue, currentPage, limit)
       .then((response) => response.json())
-      .then((result: ResultResponse) => {
+      .then((result: IResultResponse) => {
         setIsLoading(false);
-        setSearchResults(result.products);
+        const { skip, total, products } = result;
+        setSearchResults({
+          limit: searchLimit,
+          skip,
+          total,
+          products,
+        });
       });
   };
 
+  const searchHandler = (searchValue: string) => {
+    setLocalStorageSearchValue(searchValue);
+    updateProducts();
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleLimitChange = (limit: number) => {
+    setSearchLimit(limit);
+  };
+
   useEffect(() => {
-    setIsLoading(true);
-    const searchValue = getLocalStorageSearchvalue();
-    getApiData(searchValue)
-      .then((response) => response.json())
-      .then((result: ResultResponse) => {
-        setIsLoading(false);
-        setSearchResults(result.products);
-      });
-  }, []);
+    updateProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
 
   return (
     <>
       <main className={styles.main}>
         <Search searchHandler={searchHandler} />
-        {isLoading ? <Loader /> : <Products searchResults={searchResults} />}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Products
+            searchResults={searchResults}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            handleLimitChange={handleLimitChange}
+          />
+        )}
       </main>
     </>
   );

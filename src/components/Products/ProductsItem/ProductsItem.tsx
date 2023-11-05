@@ -1,5 +1,5 @@
 import styles from './ProductsItem.module.scss';
-import { ResultItemType } from '../../types/types';
+import { ResultItemType } from '../../../types/types';
 
 export function ProductsItem(props: { item: ResultItemType }) {
   const { item } = props;
