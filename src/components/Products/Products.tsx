@@ -8,9 +8,15 @@ export function Products(props: {
   currentPage: number;
   handlePageChange: (page: number) => void;
   handleLimitChange: (limit: number) => void;
+  searchLimit: number;
 }) {
-  const { searchResults, currentPage, handlePageChange, handleLimitChange } =
-    props;
+  const {
+    searchResults,
+    currentPage,
+    handlePageChange,
+    handleLimitChange,
+    searchLimit,
+  } = props;
   const { limit: itemsPerPage, total: totalItems } = searchResults;
   return (
     <section className={styles.result_block}>
@@ -22,6 +28,7 @@ export function Products(props: {
             handleLimitChange={handleLimitChange}
             itemsPerPage={itemsPerPage}
             totalItems={totalItems}
+            searchLimit={searchLimit}
           />
           <ProductsContainer searchResults={searchResults} />
         </>

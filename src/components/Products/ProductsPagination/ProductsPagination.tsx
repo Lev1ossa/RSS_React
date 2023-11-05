@@ -8,8 +8,16 @@ export function ProductsPagination(props: {
   handleLimitChange: (limit: number) => void;
   itemsPerPage: number;
   totalItems: number;
+  searchLimit: number;
 }) {
-  const { currentPage, handlePageChange, itemsPerPage, totalItems } = props;
+  const {
+    currentPage,
+    handlePageChange,
+    itemsPerPage,
+    totalItems,
+    searchLimit,
+    handleLimitChange,
+  } = props;
 
   const prevPageHandler = () => {
     if (currentPage !== DEFAULT_MIN_PAGE) {
@@ -28,8 +36,37 @@ export function ProductsPagination(props: {
     }
   };
 
+  const inputLimitChangeHandler = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    event.preventDefault();
+    const limit = +event.target.value;
+    handleLimitChange(limit);
+    handlePageChange(DEFAULT_MIN_PAGE);
+  };
+
   return (
     <div className={styles.pagination}>
+      <div className={styles.limitContainer}>
+        <label htmlFor="limits">Choose a products per page limit:</label>
+        <select
+          name="limits"
+          id="limits"
+          value={searchLimit}
+          onChange={inputLimitChangeHandler}
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+          <option value="60">60</option>
+          <option value="70">70</option>
+          <option value="80">80</option>
+          <option value="90">90</option>
+          <option value="100">100</option>
+        </select>
+      </div>
       <div className={styles.paginationContainer}>
         <div className={styles.paginationButton} onClick={prevPageHandler}>
           ←
