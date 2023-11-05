@@ -32,23 +32,25 @@ export function Search(props: {
 
   return (
     <section className={styles.search_block}>
-      <form className={styles.search_form} onSubmit={searchSubmitHandler}>
-        <label className={styles.search_label} htmlFor="search_input">
-          What do you want to search?
-        </label>
-        <input
-          className={styles.search_input}
-          id="search_input"
-          value={searchValue}
-          onChange={searchInputChangeHandler}
-          placeholder="Type keyword here"
-          autoComplete="off"
-        ></input>
-        <button className={styles.search_button} type="submit">
-          Search
-        </button>
-      </form>
-      <ErrorButton />
+      <div className={styles.search_container}>
+        <form className={styles.search_form} onSubmit={searchSubmitHandler}>
+          <label className={styles.search_label} htmlFor="search_input">
+            What do you want to search?
+          </label>
+          <input
+            className={styles.search_input}
+            id="search_input"
+            value={searchValue}
+            onChange={searchInputChangeHandler}
+            placeholder="Type keyword here"
+            autoComplete="off"
+          ></input>
+          <button className={styles.search_button} type="submit">
+            Search
+          </button>
+        </form>
+        <ErrorButton />
+      </div>
     </section>
   );
 }
