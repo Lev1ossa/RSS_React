@@ -5,11 +5,13 @@ export function ProductsItem(props: { item: ResultItemType }) {
   const { item } = props;
   return (
     <div className={styles.result_item}>
-      <img
-        className={styles.image}
-        alt="product image"
-        src={item.images[0]}
-      ></img>
+      <div className={styles.imageContainer}>
+        <img
+          className={styles.image}
+          alt="product image"
+          src={item.images[0]}
+        />
+      </div>
       <h3 className={styles.name}>{`${item.title}`}</h3>
       <p className={styles.info}>{`Category: ${item.category}`}</p>
       <p className={styles.info}>{`Brand: ${item.brand}`}</p>
