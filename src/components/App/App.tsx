@@ -20,7 +20,7 @@ export function App() {
       .then((response) => response.json())
       .then((result: ResultResponse) => {
         setIsLoading(false);
-        setSearchResults(result.results);
+        setSearchResults(result.products);
       });
   };
 
@@ -31,7 +31,7 @@ export function App() {
       .then((response) => response.json())
       .then((result: ResultResponse) => {
         setIsLoading(false);
-        setSearchResults(result.results);
+        setSearchResults(result.products);
       });
   }, []);
 

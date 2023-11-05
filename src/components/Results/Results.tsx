@@ -8,8 +8,8 @@ export function Results(props: { searchResults: ResultItemsType }) {
     <section className={styles.result_block}>
       {searchResults.length ? (
         <div className={styles.result_container}>
-          {searchResults.map((item: ResultItemType, idx) => {
-            return <ResultItem item={item} key={item.name + idx} />;
+          {searchResults.map((item: ResultItemType) => {
+            return <ResultItem item={item} key={item.id} />;
           })}
         </div>
       ) : (

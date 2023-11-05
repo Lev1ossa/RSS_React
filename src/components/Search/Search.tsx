@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ErrorButton } from '../ErrorButton/ErrorButton';
 import styles from './Search.module.scss';
 import {
@@ -24,14 +24,15 @@ export function Search(props: {
     }
   };
 
-  const searchButtonHandler = () => {
+  const searchSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLocalStorageSearchValue(searchValue);
     searchHandler(searchValue);
   };
 
   return (
     <section className={styles.search_block}>
-      <form className={styles.search_form}>
+      <form className={styles.search_form} onSubmit={searchSubmitHandler}>
         <label className={styles.search_label} htmlFor="search_input">
           What do you want to search?
         </label>
@@ -41,12 +42,9 @@ export function Search(props: {
           value={searchValue}
           onChange={searchInputChangeHandler}
           placeholder="Type keyword here"
+          autoComplete="off"
         ></input>
-        <button
-          className={styles.search_button}
-          type="button"
-          onClick={searchButtonHandler}
-        >
+        <button className={styles.search_button} type="submit">
           Search
         </button>
       </form>
