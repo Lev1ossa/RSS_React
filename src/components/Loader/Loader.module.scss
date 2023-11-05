@@ -1,0 +1,24 @@
+.loaderContainer {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.loader {
+  width: 27px;
+  height: 27px;
+  border: 3px solid #000;
+  border-bottom-color: transparent;
+  border-radius: 100%;
+  animation: rotation 1s linear infinite;
+}
+
+  @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  } 
