@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import { IResultResponse, ResultItemType } from '../../../types/types';
-// import { ProductsDetailed } from '../ProductDetailed/ProductDetailed';
 import { ProductsItem } from '../ProductsItem/ProductsItem';
 
 import styles from './ProductsContainer.module.scss';
