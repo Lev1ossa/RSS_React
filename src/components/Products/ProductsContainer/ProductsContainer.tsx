@@ -1,5 +1,6 @@
+import { Outlet } from 'react-router-dom';
 import { IResultResponse, ResultItemType } from '../../../types/types';
-import { ProductsDetailed } from '../ProductDetailed/ProductDetailed';
+// import { ProductsDetailed } from '../ProductDetailed/ProductDetailed';
 import { ProductsItem } from '../ProductsItem/ProductsItem';
 
 import styles from './ProductsContainer.module.scss';
@@ -30,10 +31,9 @@ export function ProductsContainer(props: {
           );
         })}
       </div>
-      <ProductsDetailed
-        detailedProductID={detailedProductID}
-        detailedProductChangeHandler={detailedProductChangeHandler}
-      />
+      {detailedProductID !== 0 && (
+        <Outlet context={{ detailedProductID, detailedProductChangeHandler }} />
+      )}
     </div>
   );
 }

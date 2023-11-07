@@ -28,3 +28,8 @@ export interface IErrorBoundaryProps {
 export interface IErrorBoundaryState {
   hasError: boolean;
 }
+
+export type OutletContextType = {
+  detailedProductID: number;
+  detailedProductChangeHandler: (id: number) => void;
+};

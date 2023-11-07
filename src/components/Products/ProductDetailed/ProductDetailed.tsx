@@ -1,41 +1,35 @@
 import { useEffect, useState } from 'react';
 import { getProductByID } from '../../../utils/api';
 import styles from './ProductDetailed.module.scss';
-import { ResultItemType } from '../../../types/types';
+import { OutletContextType, ResultItemType } from '../../../types/types';
 import { Loader } from '../../Loader/Loader';
+import { useOutletContext } from 'react-router-dom';
 
-export function ProductsDetailed(props: {
-  detailedProductID: number;
-  detailedProductChangeHandler: (id: number) => void;
-}) {
-  const { detailedProductID, detailedProductChangeHandler } = props;
+export function ProductsDetailed() {
+  const { detailedProductID, detailedProductChangeHandler } =
+    useOutletContext<OutletContextType>();
   const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState<ResultItemType | undefined>();
 
   useEffect(() => {
     if (detailedProductID !== 0) {
       setIsLoading(true);
-      getProductByID(detailedProductID)
-        .then((response) => response.json())
-        .then((result: ResultItemType) => {
-          setProduct(result);
-          setIsLoading(false);
-        });
+      detailedProductID &&
+        getProductByID(detailedProductID)
+          .then((response) => response.json())
+          .then((result: ResultItemType) => {
+            setProduct(result);
+            setIsLoading(false);
+          });
     }
   }, [detailedProductID]);
 
   const closeDetailedHandler = () => {
-    detailedProductChangeHandler(0);
+    detailedProductChangeHandler && detailedProductChangeHandler(0);
   };
 
   return (
-    <div
-      className={
-        detailedProductID === 0
-          ? styles.item_detailed_hidden
-          : styles.item_detailed
-      }
-    >
+    <div className={styles.item_detailed}>
       {product && !isLoading ? (
         <>
           <button type="button" onClick={closeDetailedHandler}>
