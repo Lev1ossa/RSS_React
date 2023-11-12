@@ -1,29 +1,41 @@
+import { useContext } from 'react';
 import { DEFAULT_MIN_PAGE } from '../../../utils/constants';
 import { getMaxPage } from '../../../utils/utils';
+import { AppContext } from '../../App/Context/AppContext';
 import styles from './ProductsPagination.module.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export function ProductsPagination(props: {
-  currentPage: number;
-  handlePageChange: (page: number) => void;
-  handleLimitChange: (limit: number) => void;
-  itemsPerPage: number;
-  totalItems: number;
-  searchLimit: number;
-}) {
+export function ProductsPagination() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParameters = new URLSearchParams(location.search);
+
+  const context = useContext(AppContext);
   const {
-    currentPage,
-    handlePageChange,
-    itemsPerPage,
-    totalItems,
     searchLimit,
-    handleLimitChange,
-  } = props;
+    searchResults,
+    currentPage,
+    setSearchLimit,
+    setCurrentPage,
+  } = context;
+  const { limit: itemsPerPage, total: totalItems } = searchResults;
+
+  const changePageHandler = (newPage: number) => {
+    setCurrentPage(newPage);
+    if (currentPage === 1) {
+      queryParameters.delete('page');
+    } else {
+      queryParameters.set('page', currentPage.toString());
+    }
+    navigate({ search: queryParameters.toString() });
+  };
 
   const prevPageHandler = () => {
     if (currentPage !== DEFAULT_MIN_PAGE) {
       let newPage = currentPage - 1;
       newPage = newPage < DEFAULT_MIN_PAGE ? DEFAULT_MIN_PAGE : newPage;
-      handlePageChange(newPage);
+      setCurrentPage(newPage);
+      changePageHandler(newPage);
     }
   };
 
@@ -32,7 +44,8 @@ export function ProductsPagination(props: {
     if (currentPage !== maxPage) {
       let newPage = currentPage + 1;
       newPage = newPage > maxPage ? maxPage : newPage;
-      handlePageChange(newPage);
+      setCurrentPage(newPage);
+      changePageHandler(newPage);
     }
   };
 
@@ -41,8 +54,10 @@ export function ProductsPagination(props: {
   ) => {
     event.preventDefault();
     const limit = +event.target.value;
-    handleLimitChange(limit);
-    handlePageChange(DEFAULT_MIN_PAGE);
+    // handleLimitChange(limit);
+    setSearchLimit(limit);
+    setCurrentPage(DEFAULT_MIN_PAGE);
+    changePageHandler(DEFAULT_MIN_PAGE);
   };
 
   return (

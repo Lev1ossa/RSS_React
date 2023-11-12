@@ -33,3 +33,19 @@ export type OutletContextType = {
   detailedProductID: number;
   detailedProductChangeHandler: (id: number) => void;
 };
+
+export type AppContextProps = {
+  searchLimit: number;
+  searchResults: IResultResponse;
+  isLoading: boolean;
+  searchValue: string;
+  currentPage: number;
+  detailedProductID: number;
+  setSearchLimit: React.Dispatch<React.SetStateAction<number>>;
+  setSearchResults: React.Dispatch<React.SetStateAction<IResultResponse>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setDetailedProductID: React.Dispatch<React.SetStateAction<number>>;
+  updateProducts: () => void;
+};

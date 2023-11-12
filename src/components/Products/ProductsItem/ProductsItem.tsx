@@ -1,11 +1,25 @@
 import styles from './ProductsItem.module.scss';
 import { ResultItemType } from '../../../types/types';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from '../../App/Context/AppContext';
 
-export function ProductsItem(props: {
-  item: ResultItemType;
-  detailedProductChangeHandler: (id: number) => void;
-}) {
-  const { item, detailedProductChangeHandler } = props;
+export function ProductsItem(props: { item: ResultItemType }) {
+  const { item } = props;
+
+  const context = useContext(AppContext);
+  const { setDetailedProductID } = context;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParameters = new URLSearchParams(location.search);
+
+  const detailedProductChangeHandler = (id: number) => {
+    setDetailedProductID(id);
+    queryParameters.set('details', id.toString());
+    navigate({ search: queryParameters.toString() });
+  };
+
   return (
     <div
       className={styles.result_item}

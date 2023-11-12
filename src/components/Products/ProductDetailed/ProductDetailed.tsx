@@ -1,15 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getProductByID } from '../../../utils/api';
 import styles from './ProductDetailed.module.scss';
-import { OutletContextType, ResultItemType } from '../../../types/types';
+import { ResultItemType } from '../../../types/types';
 import { Loader } from '../../Loader/Loader';
-import { useOutletContext } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AppContext } from '../../App/Context/AppContext';
 
 export function ProductsDetailed() {
-  const { detailedProductID, detailedProductChangeHandler } =
-    useOutletContext<OutletContextType>();
   const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState<ResultItemType | undefined>();
+  const context = useContext(AppContext);
+  const { detailedProductID, setDetailedProductID } = context;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParameters = new URLSearchParams(location.search);
 
   useEffect(() => {
     if (detailedProductID !== 0) {
@@ -25,7 +29,9 @@ export function ProductsDetailed() {
   }, [detailedProductID]);
 
   const closeDetailedHandler = () => {
-    detailedProductChangeHandler && detailedProductChangeHandler(0);
+    setDetailedProductID(0);
+    queryParameters.delete('details');
+    navigate({ search: queryParameters.toString() });
   };
 
   return (
