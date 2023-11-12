@@ -8,7 +8,6 @@ export type ResultItemType = {
   stock: number;
   brand: string;
   category: string;
-  thumbnail: string;
   images: Array<string>;
 };
 

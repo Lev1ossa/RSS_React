@@ -54,7 +54,6 @@ export function ProductsPagination() {
   ) => {
     event.preventDefault();
     const limit = +event.target.value;
-    // handleLimitChange(limit);
     setSearchLimit(limit);
     setCurrentPage(DEFAULT_MIN_PAGE);
     changePageHandler(DEFAULT_MIN_PAGE);
