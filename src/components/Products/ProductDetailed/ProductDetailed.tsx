@@ -34,8 +34,10 @@ export function ProductsDetailed() {
     navigate({ search: queryParameters.toString() });
   };
 
+  console.log('HEEEEEEEY', product);
+
   return (
-    <div className={styles.item_detailed}>
+    <div className={styles.item_detailed} data-testid="detail">
       {product && !isLoading ? (
         <>
           <button type="button" onClick={closeDetailedHandler}>
@@ -45,7 +47,7 @@ export function ProductsDetailed() {
             <img
               className={styles.image}
               alt="product image"
-              src={product.images[0]}
+              src={product.images ? product.images[0] : ''}
             />
           </div>
           <h3 className={styles.name}>{`${product.title}`}</h3>

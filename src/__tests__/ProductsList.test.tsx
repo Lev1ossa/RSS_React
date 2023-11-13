@@ -37,7 +37,7 @@ test('Should renders the specified number of cards', async () => {
         images: ['https://i.dummyjson.com/data/products/2/thumbnail.jpg'],
       },
       {
-        id: 1,
+        id: 3,
         title: 'Samsung Universe 9',
         description:
           'Samsungs new variant which goes beyond Galaxy to the Universe',
@@ -51,30 +51,6 @@ test('Should renders the specified number of cards', async () => {
       },
     ],
   };
-
-  // vi.spyOn(window, 'fetch').mockImplementation(
-  //   () =>
-  //     Promise.resolve({
-  //       json: () => Promise.resolve(searchResults),
-  //     }) as Promise<Response>
-  // );
-
-  // render(
-  //   <AppContextProvider>
-  //     <MemoryRouter>
-  //       <MainPage />
-  //     </MemoryRouter>
-  //   </AppContextProvider>
-  // );
-
-  // await screen.findAllByAltText('product image');
-  // const elementsArr = screen.getAllByAltText('product image');
-  // expect(elementsArr.length).toEqual(3);
-
-  //   getProductByID(10)
-  //     .then((response) => response.json())
-  //     .then((result) => console.log(result));
-  // });
 
   const mockAppContext = {
     searchLimit: 10,
@@ -137,6 +113,6 @@ test('Should renders the specified number of cards', async () => {
     </AppContext.Provider>
   );
 
-  const nothingFoundMessage = screen.findByText('Nothing found, try again!');
+  const nothingFoundMessage = screen.getByText('Nothing found, try again!');
   expect(nothingFoundMessage).toBeDefined();
 });

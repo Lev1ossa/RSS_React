@@ -34,7 +34,6 @@ export function AppContextProvider({
       .then((result: IResultResponse) => {
         setIsLoading(false);
         const { skip, total, products } = result;
-        console.log(result.products);
         setSearchResults({
           limit: searchLimit,
           skip,
