@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { App } from '../components/App/App';
 import createFetchMock from 'vitest-fetch-mock';
 import userEvent from '@testing-library/user-event';
+import { productItem, searchResults } from './mocks';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -15,19 +16,6 @@ describe('Card component tests', (): void => {
   });
 
   test('Card component should renders the relevant card data', () => {
-    const productItem = {
-      id: 1,
-      title: 'iPhone 9',
-      description: 'An apple mobile which is nothing like apple',
-      price: 549,
-      discountPercentage: 12.96,
-      rating: 4.69,
-      stock: 94,
-      brand: 'Apple',
-      category: 'smartphones',
-      images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
-    };
-
     render(
       <MemoryRouter>
         <ProductsItem item={productItem} />
@@ -42,26 +30,6 @@ describe('Card component tests', (): void => {
   });
 
   test('Clicking on a card should opens a detailed card component', async () => {
-    const searchResults = {
-      limit: 20,
-      skip: 0,
-      total: 1,
-      products: [
-        {
-          id: 1,
-          title: 'iPhone 9',
-          description: 'An apple mobile which is nothing like apple',
-          price: 549,
-          discountPercentage: 12.96,
-          rating: 4.69,
-          stock: 94,
-          brand: 'Apple',
-          category: 'smartphones',
-          images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
-        },
-      ],
-    };
-
     fetchMock.mockResponse(JSON.stringify(searchResults));
 
     render(<App />);
@@ -76,26 +44,6 @@ describe('Card component tests', (): void => {
   });
 
   test('Clicking on a card should triggers an additional API call to fetch detailed information', async () => {
-    const searchResults = {
-      limit: 20,
-      skip: 0,
-      total: 1,
-      products: [
-        {
-          id: 1,
-          title: 'iPhone 9',
-          description: 'An apple mobile which is nothing like apple',
-          price: 549,
-          discountPercentage: 12.96,
-          rating: 4.69,
-          stock: 94,
-          brand: 'Apple',
-          category: 'smartphones',
-          images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
-        },
-      ],
-    };
-
     fetchMock.mockResponse(JSON.stringify(searchResults));
 
     render(<App />);

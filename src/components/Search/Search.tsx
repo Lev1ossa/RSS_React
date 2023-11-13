@@ -71,8 +71,13 @@ export function Search() {
             onChange={searchInputChangeHandler}
             placeholder="Type keyword here"
             autoComplete="off"
+            data-testid="searchinput"
           ></input>
-          <button className={styles.search_button} type="submit">
+          <button
+            className={styles.search_button}
+            type="submit"
+            data-testid="searchbtn"
+          >
             Search
           </button>
         </form>

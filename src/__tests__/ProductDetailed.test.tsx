@@ -6,6 +6,7 @@ import createFetchMock from 'vitest-fetch-mock';
 import { MemoryRouter } from 'react-router-dom';
 import { AppContext } from '../components/App/Context/AppContext';
 import { ProductsDetailed } from '../components/Products/ProductDetailed/ProductDetailed';
+import { mockAppContext, searchResults } from './mocks';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -16,26 +17,6 @@ describe('Card detailed tests', (): void => {
   });
 
   test('Clicking on close button should close detailed card', async () => {
-    const searchResults = {
-      limit: 20,
-      skip: 0,
-      total: 1,
-      products: [
-        {
-          id: 1,
-          title: 'iPhone 9',
-          description: 'An apple mobile which is nothing like apple',
-          price: 549,
-          discountPercentage: 12.96,
-          rating: 4.69,
-          stock: 94,
-          brand: 'Apple',
-          category: 'smartphones',
-          images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
-        },
-      ],
-    };
-
     fetchMock.mockResponse(JSON.stringify(searchResults));
 
     render(<App />);
@@ -54,41 +35,6 @@ describe('Card detailed tests', (): void => {
 
   test('Card component should render the relevant card data', async () => {
     fetchMock.disableMocks();
-    const searchResults = {
-      limit: 20,
-      skip: 0,
-      total: 1,
-      products: [
-        {
-          id: 1,
-          title: 'iPhone 9',
-          description: 'An apple mobile which is nothing like apple',
-          price: 549,
-          discountPercentage: 12.96,
-          rating: 4.69,
-          stock: 94,
-          brand: 'Apple',
-          category: 'smartphones',
-          images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
-        },
-      ],
-    };
-
-    const mockAppContext = {
-      searchLimit: 10,
-      searchResults,
-      isLoading: false,
-      searchValue: '',
-      currentPage: 1,
-      detailedProductID: 1,
-      setSearchLimit: () => {},
-      setSearchResults: () => {},
-      setIsLoading: () => {},
-      setSearchValue: () => {},
-      setCurrentPage: () => {},
-      setDetailedProductID: () => {},
-      updateProducts: () => {},
-    };
 
     render(
       <AppContext.Provider value={mockAppContext}>
@@ -105,25 +51,6 @@ describe('Card detailed tests', (): void => {
 
   test('loading indicator should be displayed while fetching data', async () => {
     fetchMock.enableMocks();
-    const searchResults = {
-      limit: 20,
-      skip: 0,
-      total: 1,
-      products: [
-        {
-          id: 1,
-          title: 'iPhone 9',
-          description: 'An apple mobile which is nothing like apple',
-          price: 549,
-          discountPercentage: 12.96,
-          rating: 4.69,
-          stock: 94,
-          brand: 'Apple',
-          category: 'smartphones',
-          images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
-        },
-      ],
-    };
 
     fetchMock.mockResponse(JSON.stringify(searchResults));
 
