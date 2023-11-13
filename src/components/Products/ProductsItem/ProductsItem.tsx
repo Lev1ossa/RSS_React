@@ -15,7 +15,6 @@ export function ProductsItem(props: { item: ResultItemType }) {
   const queryParameters = new URLSearchParams(location.search);
 
   const detailedProductChangeHandler = (id: number) => {
-    console.log('hello');
     setDetailedProductID(id);
     queryParameters.set('details', id.toString());
     navigate({ search: queryParameters.toString() });

@@ -82,11 +82,19 @@ export function ProductsPagination() {
         </select>
       </div>
       <div className={styles.paginationContainer}>
-        <div className={styles.paginationButton} onClick={prevPageHandler}>
+        <div
+          className={styles.paginationButton}
+          onClick={prevPageHandler}
+          data-testid="prevpage"
+        >
           ←
         </div>
         <div className={styles.paginationButton}>{currentPage}</div>
-        <div className={styles.paginationButton} onClick={nextPageHandler}>
+        <div
+          className={styles.paginationButton}
+          onClick={nextPageHandler}
+          data-testid="nextpage"
+        >
           →
         </div>
       </div>

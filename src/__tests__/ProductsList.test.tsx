@@ -81,7 +81,7 @@ test('Should renders the specified number of cards', async () => {
   expect(elementsArr.length).toEqual(3);
 });
 
-test('Should renders the specified number of cards', async () => {
+test('Should render nothing found message', async () => {
   const searchResults = {
     limit: 10,
     skip: 0,
