@@ -35,6 +35,5 @@ test('404 page should be displayed when navigating to an invalid route', async (
     }
   );
   render(<RouterProvider router={router} />);
-
   expect(screen.getByText('NOT FOUND!')).toBeInTheDocument();
 });

@@ -56,10 +56,10 @@ export function Search() {
 
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLocalStorageSearchValue(inputValue);
     dispatch(setSearchValue(inputValue));
-    setLocalStorageSearchValue(searchValue);
+    // setLocalStorageSearchValue(searchValue);
     changePageHandler(DEFAULT_MIN_PAGE);
-    setLocalStorageSearchValue(searchValue);
     refetch();
   };
 

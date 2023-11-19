@@ -14,10 +14,8 @@ describe('pagination test', (): void => {
   });
   test('Component should update URL query parameter when page changes', async () => {
     fetchMock.mockResponse(JSON.stringify(searchResults));
-
     render(<App />);
     expect(location.search).to.equal('');
-
     const nextpage = await screen.findByTestId('nextpage');
     await userEvent.click(nextpage);
     const prevpage = await screen.findByTestId('prevpage');

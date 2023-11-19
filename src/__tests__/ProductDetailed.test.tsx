@@ -4,9 +4,9 @@ import { App } from '../components/App/App';
 import userEvent from '@testing-library/user-event';
 import createFetchMock from 'vitest-fetch-mock';
 import { MemoryRouter } from 'react-router-dom';
-import { AppContext } from '../components/App/Context/AppContext';
 import { ProductsDetailed } from '../components/Products/ProductDetailed/ProductDetailed';
-import { mockAppContext, searchResults } from './mocks';
+import { productItem, searchResults } from './mocks';
+import { renderWithProviders } from './utils';
 
 const fetchMock = createFetchMock(vi);
 fetchMock.enableMocks();
@@ -34,14 +34,11 @@ describe('Card detailed tests', (): void => {
   });
 
   test('Card component should render the relevant card data', async () => {
-    fetchMock.disableMocks();
-
-    render(
-      <AppContext.Provider value={mockAppContext}>
-        <MemoryRouter>
-          <ProductsDetailed />
-        </MemoryRouter>
-      </AppContext.Provider>
+    fetchMock.mockResponse(JSON.stringify(productItem));
+    renderWithProviders(
+      <MemoryRouter>
+        <ProductsDetailed />
+      </MemoryRouter>
     );
     const itemCategory = await screen.findByText(
       'Description: An apple mobile which is nothing like apple'
@@ -50,8 +47,6 @@ describe('Card detailed tests', (): void => {
   });
 
   test('loading indicator should be displayed while fetching data', async () => {
-    fetchMock.enableMocks();
-
     fetchMock.mockResponse(JSON.stringify(searchResults));
 
     render(<App />);
