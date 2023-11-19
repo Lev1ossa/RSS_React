@@ -58,7 +58,6 @@ export function Search() {
     event.preventDefault();
     setLocalStorageSearchValue(inputValue);
     dispatch(setSearchValue(inputValue));
-    // setLocalStorageSearchValue(searchValue);
     changePageHandler(DEFAULT_MIN_PAGE);
     refetch();
   };
