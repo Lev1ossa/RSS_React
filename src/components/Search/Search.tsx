@@ -1,20 +1,25 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect } from 'react';
 import { ErrorButton } from '../ErrorButton/ErrorButton';
 import styles from './Search.module.scss';
-import {
-  getLocalStorageSearchvalue,
-  setLocalStorageSearchValue,
-} from '../../utils/localStorage';
+import { setLocalStorageSearchValue } from '../../utils/localStorage';
+import { AppContext } from '../App/Context/AppContext';
+import { DEFAULT_MIN_PAGE } from '../../utils/constants';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export function Search(props: {
-  searchHandler: (searchValue: string) => void;
-}) {
-  const { searchHandler } = props;
-  const [searchValue, setSearchValue] = useState('');
+export function Search() {
+  const context = useContext(AppContext);
+  const {
+    searchValue,
+    searchLimit,
+    currentPage,
+    setSearchValue,
+    updateProducts,
+    setCurrentPage,
+  } = context;
 
-  useEffect(() => {
-    setSearchValue(getLocalStorageSearchvalue());
-  }, []);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParameters = new URLSearchParams(location.search);
 
   const searchInputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -27,8 +32,30 @@ export function Search(props: {
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLocalStorageSearchValue(searchValue);
-    searchHandler(searchValue);
+    changePageHandler(DEFAULT_MIN_PAGE);
+    setLocalStorageSearchValue(searchValue);
+    updateProducts();
   };
+
+  const changePageHandler = (newPage: number) => {
+    setCurrentPage(newPage);
+    if (currentPage === 1) {
+      queryParameters.delete('page');
+    } else {
+      queryParameters.set('page', currentPage.toString());
+    }
+    navigate({ search: queryParameters.toString() });
+  };
+
+  useEffect(() => {
+    if (currentPage === 0) {
+      setCurrentPage(DEFAULT_MIN_PAGE);
+    } else {
+      changePageHandler(currentPage);
+      updateProducts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchLimit]);
 
   return (
     <section className={styles.search_block}>
@@ -44,8 +71,13 @@ export function Search(props: {
             onChange={searchInputChangeHandler}
             placeholder="Type keyword here"
             autoComplete="off"
+            data-testid="searchinput"
           ></input>
-          <button className={styles.search_button} type="submit">
+          <button
+            className={styles.search_button}
+            type="submit"
+            data-testid="searchbtn"
+          >
             Search
           </button>
         </form>

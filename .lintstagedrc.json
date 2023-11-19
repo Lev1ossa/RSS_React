@@ -1,6 +1,7 @@
 {
   "*.{js,ts,tsx,jsx}": [
     "prettier --write",
-    "eslint --fix"
+    "eslint --fix",
+    "vitest related --run"
   ]
 }

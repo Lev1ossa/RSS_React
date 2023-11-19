@@ -1,51 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getProductByID } from '../../../utils/api';
 import styles from './ProductDetailed.module.scss';
 import { ResultItemType } from '../../../types/types';
 import { Loader } from '../../Loader/Loader';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AppContext } from '../../App/Context/AppContext';
 
-export function ProductsDetailed(props: {
-  detailedProductID: number;
-  detailedProductChangeHandler: (id: number) => void;
-}) {
-  const { detailedProductID, detailedProductChangeHandler } = props;
+export function ProductsDetailed() {
   const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState<ResultItemType | undefined>();
+  const context = useContext(AppContext);
+  const { detailedProductID, setDetailedProductID } = context;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParameters = new URLSearchParams(location.search);
 
   useEffect(() => {
     if (detailedProductID !== 0) {
       setIsLoading(true);
-      getProductByID(detailedProductID)
-        .then((response) => response.json())
-        .then((result: ResultItemType) => {
-          setProduct(result);
-          setIsLoading(false);
-        });
+      detailedProductID &&
+        getProductByID(detailedProductID)
+          .then((response) => response.json())
+          .then((result: ResultItemType) => {
+            setProduct(result);
+            setIsLoading(false);
+          });
     }
   }, [detailedProductID]);
 
   const closeDetailedHandler = () => {
-    detailedProductChangeHandler(0);
+    setDetailedProductID(0);
+    queryParameters.delete('details');
+    navigate({ search: queryParameters.toString() });
   };
 
   return (
-    <div
-      className={
-        detailedProductID === 0
-          ? styles.item_detailed_hidden
-          : styles.item_detailed
-      }
-    >
+    <div className={styles.item_detailed} data-testid="detail">
       {product && !isLoading ? (
         <>
-          <button type="button" onClick={closeDetailedHandler}>
+          <button
+            type="button"
+            onClick={closeDetailedHandler}
+            data-testid="closeButton"
+          >
             Close
           </button>
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
               alt="product image"
-              src={product.images[0]}
+              src={product.images ? product.images[0] : ''}
             />
           </div>
           <h3 className={styles.name}>{`${product.title}`}</h3>
