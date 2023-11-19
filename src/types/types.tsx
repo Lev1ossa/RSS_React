@@ -14,7 +14,6 @@ export type ResultItemType = {
 export type ResultItemsType = ResultItemType[];
 
 export interface IResultResponse {
-  limit: number;
   skip: number;
   total: number;
   products: ResultItemsType;
@@ -28,27 +27,6 @@ export interface IErrorBoundaryState {
   hasError: boolean;
 }
 
-export type OutletContextType = {
-  detailedProductID: number;
-  detailedProductChangeHandler: (id: number) => void;
-};
-
-export type AppContextProps = {
-  searchLimit: number;
-  searchResults: IResultResponse;
-  isLoading: boolean;
-  searchValue: string;
-  currentPage: number;
-  detailedProductID: number;
-  setSearchLimit: React.Dispatch<React.SetStateAction<number>>;
-  setSearchResults: React.Dispatch<React.SetStateAction<IResultResponse>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  setDetailedProductID: React.Dispatch<React.SetStateAction<number>>;
-  updateProducts: () => void;
-};
-
 export type AppReduxState = {
   searchLimit: number;
   searchResults: IResultResponse;
@@ -57,4 +35,10 @@ export type AppReduxState = {
   searchValue: string;
   currentPage: number;
   detailedProductID: number;
+};
+
+export type GetProductsProps = {
+  searchValue: string;
+  currentPage: number;
+  limit: number;
 };

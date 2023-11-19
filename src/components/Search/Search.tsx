@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ErrorButton } from '../ErrorButton/ErrorButton';
 import styles from './Search.module.scss';
 import { setLocalStorageSearchValue } from '../../utils/localStorage';
@@ -6,18 +6,16 @@ import { DEFAULT_MIN_PAGE } from '../../utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App/appReduxStore/store';
-import { setCurrentPage, setSearchValue } from '../App/appReduxStore/reducer';
+import {
+  setCurrentPage,
+  setIsLoading,
+  setSearchResults,
+  setSearchValue,
+} from '../App/appReduxStore/reducer';
+import { GetProductsProps } from '../../types/types';
+import { useGetProductsQuery } from '../App/appReduxStore/productsApi';
 
 export function Search() {
-  // const context = useContext(AppContext);
-  // const {
-  //   searchValue,
-  //   searchLimit,
-  //   currentPage,
-  //   setSearchValue,
-  //   updateProducts,
-  //   setCurrentPage,
-  // } = context;
   const searchValue = useSelector((state: RootState) => state.app.searchValue);
   const searchLimit = useSelector((state: RootState) => state.app.searchLimit);
   const currentPage = useSelector((state: RootState) => state.app.currentPage);
@@ -26,22 +24,43 @@ export function Search() {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search);
+  const [inputValue, setInputValue] = useState(searchValue);
+
+  const getProductsProps: GetProductsProps = {
+    searchValue,
+    currentPage,
+    limit: searchLimit,
+  };
+  const { data, isFetching, refetch } = useGetProductsQuery(getProductsProps);
+  useEffect(() => {
+    dispatch(setIsLoading(true));
+    if (!isFetching) {
+      const { skip, total, products } = data;
+      dispatch(
+        setSearchResults({
+          skip: skip,
+          total: total,
+          products: products,
+        })
+      );
+    }
+  }, [data, dispatch, isFetching]);
 
   const searchInputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target) {
-      dispatch(setSearchValue(event.target.value));
+      setInputValue(event.target.value);
     }
   };
 
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(setSearchValue(searchValue));
+    dispatch(setSearchValue(inputValue));
     setLocalStorageSearchValue(searchValue);
     changePageHandler(DEFAULT_MIN_PAGE);
     setLocalStorageSearchValue(searchValue);
-    // dispatch(updateProducts());
+    refetch();
   };
 
   const changePageHandler = (newPage: number) => {
@@ -59,7 +78,7 @@ export function Search() {
       dispatch(setCurrentPage(DEFAULT_MIN_PAGE));
     } else {
       changePageHandler(currentPage);
-      // updateProducts();
+      refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchLimit]);
@@ -74,7 +93,7 @@ export function Search() {
           <input
             className={styles.search_input}
             id="search_input"
-            value={searchValue}
+            value={inputValue}
             onChange={searchInputChangeHandler}
             placeholder="Type keyword here"
             autoComplete="off"

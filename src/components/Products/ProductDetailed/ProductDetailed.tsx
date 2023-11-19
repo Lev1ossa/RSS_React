@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getProductByID } from '../../../utils/api';
 import styles from './ProductDetailed.module.scss';
 import { ResultItemType } from '../../../types/types';
 import { Loader } from '../../Loader/Loader';
@@ -10,6 +9,7 @@ import {
   setDetailedProductID,
   setIsProductLoading,
 } from '../../App/appReduxStore/reducer';
+import { useGetProductByIDQuery } from '../../App/appReduxStore/productsApi';
 
 export function ProductsDetailed() {
   const [product, setProduct] = useState<ResultItemType | undefined>();
@@ -24,18 +24,21 @@ export function ProductsDetailed() {
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search);
 
+  const { data, isFetching, refetch } =
+    useGetProductByIDQuery(detailedProductID);
+
   useEffect(() => {
-    if (detailedProductID !== 0) {
-      dispatch(setIsProductLoading(true));
-      detailedProductID &&
-        getProductByID(detailedProductID)
-          .then((response) => response.json())
-          .then((result: ResultItemType) => {
-            setProduct(result);
-            dispatch(setIsProductLoading(false));
-          });
+    dispatch(setIsProductLoading(true));
+    if (!isFetching) {
+      setProduct(data);
     }
-  }, [detailedProductID, dispatch]);
+  }, [data, dispatch, isFetching]);
+
+  useEffect(() => {
+    if (detailedProductID) {
+      refetch();
+    }
+  }, [detailedProductID, refetch]);
 
   const closeDetailedHandler = () => {
     dispatch(setDetailedProductID(0));

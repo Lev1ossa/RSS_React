@@ -7,7 +7,6 @@ import { getLocalStorageSearchvalue } from '../../../utils/localStorage';
 const initialState: AppReduxState = {
   searchLimit: DEFAULT_LIMIT,
   searchResults: {
-    limit: DEFAULT_LIMIT,
     skip: 0,
     total: 0,
     products: [],

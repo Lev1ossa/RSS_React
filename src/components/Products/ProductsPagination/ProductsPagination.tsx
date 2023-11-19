@@ -19,7 +19,7 @@ export function ProductsPagination() {
   );
   const currentPage = useSelector((state: RootState) => state.app.currentPage);
   const dispatch = useDispatch();
-  const { limit: itemsPerPage, total: totalItems } = searchResults;
+  const { total: totalItems } = searchResults;
 
   const changePageHandler = (newPage: number) => {
     dispatch(setCurrentPage(newPage));
@@ -41,7 +41,7 @@ export function ProductsPagination() {
   };
 
   const nextPageHandler = () => {
-    const maxPage = getMaxPage(itemsPerPage, totalItems);
+    const maxPage = getMaxPage(searchLimit, totalItems);
     if (currentPage !== maxPage) {
       let newPage = currentPage + 1;
       newPage = newPage > maxPage ? maxPage : newPage;
