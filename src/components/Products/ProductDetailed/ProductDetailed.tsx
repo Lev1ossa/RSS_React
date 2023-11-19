@@ -1,42 +1,54 @@
-import { useContext, useEffect, useState } from 'react';
-import { getProductByID } from '../../../utils/api';
+import { useEffect, useState } from 'react';
 import styles from './ProductDetailed.module.scss';
 import { ResultItemType } from '../../../types/types';
 import { Loader } from '../../Loader/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AppContext } from '../../App/Context/AppContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../App/appReduxStore/store';
+import {
+  setDetailedProductID,
+  setIsProductLoading,
+} from '../../App/appReduxStore/reducer';
+import { useGetProductByIDQuery } from '../../App/appReduxStore/productsApi';
 
 export function ProductsDetailed() {
-  const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState<ResultItemType | undefined>();
-  const context = useContext(AppContext);
-  const { detailedProductID, setDetailedProductID } = context;
+  const detailedProductID = useSelector(
+    (state: RootState) => state.app.detailedProductID
+  );
+  const isProductLoading = useSelector(
+    (state: RootState) => state.app.isProductLoading
+  );
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search);
 
+  const { data, isFetching, refetch } =
+    useGetProductByIDQuery(detailedProductID);
+
   useEffect(() => {
-    if (detailedProductID !== 0) {
-      setIsLoading(true);
-      detailedProductID &&
-        getProductByID(detailedProductID)
-          .then((response) => response.json())
-          .then((result: ResultItemType) => {
-            setProduct(result);
-            setIsLoading(false);
-          });
+    dispatch(setIsProductLoading(true));
+    if (!isFetching) {
+      setProduct(data);
     }
-  }, [detailedProductID]);
+  }, [data, dispatch, isFetching]);
+
+  useEffect(() => {
+    if (detailedProductID) {
+      refetch();
+    }
+  }, [detailedProductID, refetch]);
 
   const closeDetailedHandler = () => {
-    setDetailedProductID(0);
+    dispatch(setDetailedProductID(0));
     queryParameters.delete('details');
     navigate({ search: queryParameters.toString() });
   };
 
   return (
     <div className={styles.item_detailed} data-testid="detail">
-      {product && !isLoading ? (
+      {product && !isProductLoading ? (
         <>
           <button
             type="button"

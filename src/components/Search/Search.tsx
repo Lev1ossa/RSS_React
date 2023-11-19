@@ -1,44 +1,69 @@
-import { FormEvent, useContext, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ErrorButton } from '../ErrorButton/ErrorButton';
 import styles from './Search.module.scss';
 import { setLocalStorageSearchValue } from '../../utils/localStorage';
-import { AppContext } from '../App/Context/AppContext';
 import { DEFAULT_MIN_PAGE } from '../../utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../App/appReduxStore/store';
+import {
+  setCurrentPage,
+  setIsLoading,
+  setSearchResults,
+  setSearchValue,
+} from '../App/appReduxStore/reducer';
+import { GetProductsProps } from '../../types/types';
+import { useGetProductsQuery } from '../App/appReduxStore/productsApi';
 
 export function Search() {
-  const context = useContext(AppContext);
-  const {
-    searchValue,
-    searchLimit,
-    currentPage,
-    setSearchValue,
-    updateProducts,
-    setCurrentPage,
-  } = context;
+  const searchValue = useSelector((state: RootState) => state.app.searchValue);
+  const searchLimit = useSelector((state: RootState) => state.app.searchLimit);
+  const currentPage = useSelector((state: RootState) => state.app.currentPage);
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search);
+  const [inputValue, setInputValue] = useState(searchValue);
+
+  const getProductsProps: GetProductsProps = {
+    searchValue,
+    currentPage,
+    limit: searchLimit,
+  };
+  const { data, isFetching, refetch } = useGetProductsQuery(getProductsProps);
+  useEffect(() => {
+    dispatch(setIsLoading(true));
+    if (!isFetching) {
+      const { skip, total, products } = data;
+      dispatch(
+        setSearchResults({
+          skip: skip,
+          total: total,
+          products: products,
+        })
+      );
+    }
+  }, [data, dispatch, isFetching]);
 
   const searchInputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target) {
-      setSearchValue(event.target.value);
+      setInputValue(event.target.value);
     }
   };
 
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLocalStorageSearchValue(searchValue);
+    setLocalStorageSearchValue(inputValue);
+    dispatch(setSearchValue(inputValue));
     changePageHandler(DEFAULT_MIN_PAGE);
-    setLocalStorageSearchValue(searchValue);
-    updateProducts();
+    refetch();
   };
 
   const changePageHandler = (newPage: number) => {
-    setCurrentPage(newPage);
+    dispatch(setCurrentPage(newPage));
     if (currentPage === 1) {
       queryParameters.delete('page');
     } else {
@@ -49,10 +74,10 @@ export function Search() {
 
   useEffect(() => {
     if (currentPage === 0) {
-      setCurrentPage(DEFAULT_MIN_PAGE);
+      dispatch(setCurrentPage(DEFAULT_MIN_PAGE));
     } else {
       changePageHandler(currentPage);
-      updateProducts();
+      refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchLimit]);
@@ -67,7 +92,7 @@ export function Search() {
           <input
             className={styles.search_input}
             id="search_input"
-            value={searchValue}
+            value={inputValue}
             onChange={searchInputChangeHandler}
             placeholder="Type keyword here"
             autoComplete="off"
