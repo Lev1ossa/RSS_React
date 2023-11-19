@@ -3,19 +3,26 @@ import { ResultItemType } from '../../../types/types';
 import { ProductsItem } from '../ProductsItem/ProductsItem';
 
 import styles from './ProductsContainer.module.scss';
-import { useContext } from 'react';
-import { AppContext } from '../../App/Context/AppContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../App/appReduxStore/store';
+import { setDetailedProductID } from '../../App/appReduxStore/reducer';
 
 export function ProductsContainer() {
-  const context = useContext(AppContext);
-  const { searchResults, detailedProductID, setDetailedProductID } = context;
+  const searchResults = useSelector(
+    (state: RootState) => state.app.searchResults
+  );
+  const detailedProductID = useSelector(
+    (state: RootState) => state.app.detailedProductID
+  );
+  const dispatch = useDispatch();
+
   const location = useLocation();
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search);
 
   const closeDetailedHandler = () => {
     if (detailedProductID !== 0) {
-      setDetailedProductID(0);
+      dispatch(setDetailedProductID(0));
       queryParameters.delete('details');
       navigate({ search: queryParameters.toString() });
     }

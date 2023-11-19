@@ -48,3 +48,13 @@ export type AppContextProps = {
   setDetailedProductID: React.Dispatch<React.SetStateAction<number>>;
   updateProducts: () => void;
 };
+
+export type AppReduxState = {
+  searchLimit: number;
+  searchResults: IResultResponse;
+  isLoading: boolean;
+  isProductLoading: boolean;
+  searchValue: string;
+  currentPage: number;
+  detailedProductID: number;
+};

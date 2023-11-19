@@ -1,21 +1,27 @@
-import { FormEvent, useContext, useEffect } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { ErrorButton } from '../ErrorButton/ErrorButton';
 import styles from './Search.module.scss';
 import { setLocalStorageSearchValue } from '../../utils/localStorage';
-import { AppContext } from '../App/Context/AppContext';
 import { DEFAULT_MIN_PAGE } from '../../utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../App/appReduxStore/store';
+import { setCurrentPage, setSearchValue } from '../App/appReduxStore/reducer';
 
 export function Search() {
-  const context = useContext(AppContext);
-  const {
-    searchValue,
-    searchLimit,
-    currentPage,
-    setSearchValue,
-    updateProducts,
-    setCurrentPage,
-  } = context;
+  // const context = useContext(AppContext);
+  // const {
+  //   searchValue,
+  //   searchLimit,
+  //   currentPage,
+  //   setSearchValue,
+  //   updateProducts,
+  //   setCurrentPage,
+  // } = context;
+  const searchValue = useSelector((state: RootState) => state.app.searchValue);
+  const searchLimit = useSelector((state: RootState) => state.app.searchLimit);
+  const currentPage = useSelector((state: RootState) => state.app.currentPage);
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,20 +31,21 @@ export function Search() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target) {
-      setSearchValue(event.target.value);
+      dispatch(setSearchValue(event.target.value));
     }
   };
 
   const searchSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(setSearchValue(searchValue));
     setLocalStorageSearchValue(searchValue);
     changePageHandler(DEFAULT_MIN_PAGE);
     setLocalStorageSearchValue(searchValue);
-    updateProducts();
+    // dispatch(updateProducts());
   };
 
   const changePageHandler = (newPage: number) => {
-    setCurrentPage(newPage);
+    dispatch(setCurrentPage(newPage));
     if (currentPage === 1) {
       queryParameters.delete('page');
     } else {
@@ -49,10 +56,10 @@ export function Search() {
 
   useEffect(() => {
     if (currentPage === 0) {
-      setCurrentPage(DEFAULT_MIN_PAGE);
+      dispatch(setCurrentPage(DEFAULT_MIN_PAGE));
     } else {
       changePageHandler(currentPage);
-      updateProducts();
+      // updateProducts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchLimit]);

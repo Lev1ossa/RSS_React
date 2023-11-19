@@ -1,12 +1,13 @@
 import { ProductsPagination } from './ProductsPagination/ProductsPagination';
 import { ProductsContainer } from './ProductsContainer/ProductsContainer';
 import styles from './Products.module.scss';
-import { useContext } from 'react';
-import { AppContext } from '../App/Context/AppContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../App/appReduxStore/store';
 
 export function Products() {
-  const context = useContext(AppContext);
-  const { searchResults } = context;
+  const searchResults = useSelector(
+    (state: RootState) => state.app.searchResults
+  );
 
   return (
     <section className={styles.result_block}>

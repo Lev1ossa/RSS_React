@@ -1,21 +1,19 @@
 import styles from './ProductsItem.module.scss';
 import { ResultItemType } from '../../../types/types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AppContext } from '../../App/Context/AppContext';
+import { useDispatch } from 'react-redux';
+import { setDetailedProductID } from '../../App/appReduxStore/reducer';
 
 export function ProductsItem(props: { item: ResultItemType }) {
   const { item } = props;
-
-  const context = useContext(AppContext);
-  const { setDetailedProductID } = context;
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search);
 
   const detailedProductChangeHandler = (id: number) => {
-    setDetailedProductID(id);
+    dispatch(setDetailedProductID(id));
     queryParameters.set('details', id.toString());
     navigate({ search: queryParameters.toString() });
   };
