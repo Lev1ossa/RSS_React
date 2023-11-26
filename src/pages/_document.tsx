@@ -2,8 +2,10 @@ import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
-    <Html>
-      <Head />
+    <Html lang="en">
+      <Head>
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+      </Head>
       <body>
         <Main />
         <NextScript />

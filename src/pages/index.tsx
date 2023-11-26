@@ -56,6 +56,7 @@ export default function MainPage({
   const router = useRouter();
   const pathname = usePathname();
   const queryParameters = new URLSearchParams(location);
+  let isRedirectBlocked = false;
 
   const queryChangeHandler = (
     search = searchValue,
@@ -63,24 +64,44 @@ export default function MainPage({
     limit = searchLimit,
     details = detailedProductID
   ) => {
-    if (page === 1) {
-      queryParameters.delete('page');
-    } else {
-      queryParameters.set('page', page.toString());
-    }
+    if (
+      !isRedirectBlocked &&
+      !(
+        search === searchValue &&
+        page === currentPage &&
+        limit === searchLimit &&
+        details === detailedProductID
+      )
+    ) {
+      isRedirectBlocked = true;
+      if (page === DEFAULT_MIN_PAGE) {
+        queryParameters.delete('page');
+      } else {
+        queryParameters.set('page', page.toString());
+      }
 
-    if (search === '') {
-      queryParameters.delete('search');
-    } else {
-      queryParameters.set('search', search.toString());
+      if (search === '') {
+        queryParameters.delete('search');
+      } else {
+        queryParameters.set('search', search.toString());
+      }
+      if (limit === DEFAULT_LIMIT) {
+        queryParameters.delete('limit');
+      } else {
+        queryParameters.set('limit', limit.toString());
+      }
+
+      if (details === 0) {
+        queryParameters.delete('details');
+      } else {
+        queryParameters.set('details', details.toString());
+      }
+      if (queryParameters.size === 0) {
+        router.push(pathname);
+      } else {
+        router.push(pathname + '?' + queryParameters);
+      }
     }
-    queryParameters.set('limit', limit.toString());
-    if (details === 0) {
-      queryParameters.delete('details');
-    } else {
-      queryParameters.set('details', details.toString());
-    }
-    router.push(pathname + '?' + queryParameters);
   };
 
   if (error) {
@@ -98,7 +119,6 @@ export default function MainPage({
           queryChangeHandler={queryChangeHandler}
           searchValue={searchValue}
         />
-        {/* {isLoading ? <Loader /> : <Products />} */}
         <Products
           queryChangeHandler={queryChangeHandler}
           searchResults={searchResults}

@@ -6,6 +6,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
+    'plugin:@next/next/recommended',
     'prettier',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
@@ -15,12 +16,8 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react', '@typescript-eslint', 'react-refresh', 'react-hooks', 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "comma-dangle": ["error", "only-multiline"],
@@ -33,6 +30,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-requires": "off",
+    "@next/next/no-img-element": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"
   },
