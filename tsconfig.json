@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -15,8 +15,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
   },
-  "include": ["src", "vitest.setup.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "./dist/types/**/*.ts", "./next-env.d.ts", "vitest.setup.ts"],
+  "exclude": ["./node_modules"],
 }

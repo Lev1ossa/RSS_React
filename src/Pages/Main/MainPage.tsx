@@ -2,20 +2,21 @@ import { useEffect } from 'react';
 
 import { Search } from '../../components/Search/Search';
 import { Products } from '../../components/Products/Products';
-import { Loader } from '../../components/Loader/Loader';
+// import { Loader } from '../../components/Loader/Loader';
 
 import styles from './MainPage.module.scss';
 import { DEFAULT_MIN_PAGE } from '../../utils/constants';
 import { useLocation } from 'react-router-dom';
-import { RootState } from '../../components/App/appReduxStore/store';
-import { useDispatch, useSelector } from 'react-redux';
+// import { RootState } from '../../components/App/appReduxStore/store';
+// import { useDispatch, useSelector } from 'react-redux';
 import {
   setCurrentPage,
   setDetailedProductID,
 } from '../../components/App/appReduxStore/reducer';
+import { useDispatch } from 'react-redux';
 
 export function MainPage() {
-  const isLoading = useSelector((state: RootState) => state.app.isLoading);
+  // const isLoading = useSelector((state: RootState) => state.app.isLoading);
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -33,7 +34,8 @@ export function MainPage() {
     <>
       <main className={styles.main}>
         <Search />
-        {isLoading ? <Loader /> : <Products />}
+        {/* {isLoading ? <Loader /> : <Products />} */}
+        <Products />
       </main>
     </>
   );

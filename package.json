@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint-fix": "eslint . --ext ts,tsx --fix",
-    "preview": "vite preview",
     "format:fix": "prettier --write \"src/**/*.{js,ts,tsx}\"",
     "prepare": "husky install",
     "prettier": "prettier --check \"src/**/*.{js,ts,tsx}\"",
@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "next": "^14.0.3",
+    "next-redux-wrapper": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
