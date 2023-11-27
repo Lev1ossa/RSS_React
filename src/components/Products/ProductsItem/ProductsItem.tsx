@@ -1,8 +1,5 @@
 import styles from './ProductsItem.module.scss';
 import { ResultItemType } from '../../../types/types';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { setDetailedProductID } from '../../App/appReduxStore/reducer';
 
 export function ProductsItem(props: {
   queryChangeHandler: (
@@ -14,17 +11,9 @@ export function ProductsItem(props: {
   item: ResultItemType;
 }) {
   const { queryChangeHandler, item } = props;
-  // const dispatch = useDispatch();
-
-  // const location = useLocation();
-  // const navigate = useNavigate();
-  // const queryParameters = new URLSearchParams(location.search);
 
   const detailedProductChangeHandler = (id: number) => {
     queryChangeHandler(undefined, undefined, undefined, id);
-    // dispatch(setDetailedProductID(id));
-    // queryParameters.set('details', id.toString());
-    // navigate({ search: queryParameters.toString() });
   };
 
   return (
