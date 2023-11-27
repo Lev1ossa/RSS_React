@@ -1,13 +1,6 @@
 import { DEFAULT_MIN_PAGE } from '../../../utils/constants';
 import { getMaxPage } from '../../../utils/utils';
 import styles from './ProductsPagination.module.scss';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { RootState } from '../../App/appReduxStore/store';
-// import {
-//   setCurrentPage,
-//   setSearchLimit,
-// } from '../../App/appReduxStore/reducer';
 
 export function ProductsPagination(props: {
   queryChangeHandler: (
@@ -21,25 +14,8 @@ export function ProductsPagination(props: {
   searchLimit: number;
 }) {
   const { queryChangeHandler, totalItems, currentPage, searchLimit } = props;
-  // const location = useLocation();
-  // const navigate = useNavigate();
-  // const queryParameters = new URLSearchParams(location.search);
-  // const searchLimit = useSelector((state: RootState) => state.app.searchLimit);
-  // const searchResults = useSelector(
-  //   (state: RootState) => state.app.searchResults
-  // );
-  // const currentPage = useSelector((state: RootState) => state.app.currentPage);
-  // const dispatch = useDispatch();
-  // const { total: totalItems } = searchResults;
 
   const changePageHandler = (newPage: number) => {
-    // dispatch(setCurrentPage(newPage));
-    // if (currentPage === 1) {
-    //   queryParameters.delete('page');
-    // } else {
-    //   queryParameters.set('page', currentPage.toString());
-    // }
-    // navigate({ search: queryParameters.toString() });
     queryChangeHandler(undefined, newPage);
   };
 
@@ -47,7 +23,6 @@ export function ProductsPagination(props: {
     if (currentPage !== DEFAULT_MIN_PAGE) {
       let newPage = currentPage - 1;
       newPage = newPage < DEFAULT_MIN_PAGE ? DEFAULT_MIN_PAGE : newPage;
-      // dispatch(setCurrentPage(newPage));
       changePageHandler(newPage);
     }
   };
@@ -57,7 +32,6 @@ export function ProductsPagination(props: {
     if (currentPage !== maxPage) {
       let newPage = currentPage + 1;
       newPage = newPage > maxPage ? maxPage : newPage;
-      // dispatch(setCurrentPage(newPage));
       changePageHandler(newPage);
     }
   };
@@ -67,9 +41,6 @@ export function ProductsPagination(props: {
   ) => {
     event.preventDefault();
     const limit = +event.target.value;
-    // dispatch(setSearchLimit(limit));
-    // dispatch(setCurrentPage(DEFAULT_MIN_PAGE));
-    // changePageHandler(DEFAULT_MIN_PAGE);
     queryChangeHandler(undefined, DEFAULT_MIN_PAGE, limit);
   };
 
