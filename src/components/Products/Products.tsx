@@ -1,9 +1,7 @@
 import { ProductsPagination } from './ProductsPagination/ProductsPagination';
 import { ProductsContainer } from './ProductsContainer/ProductsContainer';
 import styles from './Products.module.scss';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../App/appReduxStore/store';
-import { IResultResponse, iProductReponse } from '../../types/types';
+import { IResultResponse, ResultItemType } from '../../types/types';
 
 export function Products(props: {
   queryChangeHandler: (
@@ -16,19 +14,15 @@ export function Products(props: {
   currentPage: number;
   searchLimit: number;
   detailedProductID: number;
-  productResponse: iProductReponse;
+  productData: ResultItemType;
 }) {
-  // const searchResults = useSelector(
-  //   (state: RootState) => state.app.searchResults
-  // );
-
   const {
     queryChangeHandler,
     searchResults,
     currentPage,
     searchLimit,
     detailedProductID,
-    productResponse,
+    productData,
   } = props;
   const { total: totalItems } = searchResults;
 
@@ -46,7 +40,7 @@ export function Products(props: {
             queryChangeHandler={queryChangeHandler}
             searchResults={searchResults}
             detailedProductID={detailedProductID}
-            productResponse={productResponse}
+            productData={productData}
           />
         </>
       ) : (

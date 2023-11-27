@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import { JSX } from 'react/jsx-runtime';
 import { productsApi } from '../components/App/appReduxStore/productsApi';
-import { appReducer } from '../components/App/appReduxStore/reducer';
 import { RootState } from '../components/App/appReduxStore/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
@@ -21,7 +20,6 @@ export function renderWithProviders(
     store = configureStore({
       reducer: {
         [productsApi.reducerPath]: productsApi.reducer,
-        app: appReducer,
       },
       middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(productsApi.middleware),

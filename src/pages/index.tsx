@@ -125,7 +125,7 @@ export default function MainPage({
           currentPage={currentPage}
           searchLimit={searchLimit}
           detailedProductID={detailedProductID}
-          productResponse={productResponse}
+          productData={productResponse.data}
         />
       </main>
     </>

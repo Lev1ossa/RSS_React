@@ -1,5 +1,5 @@
 import styles from './ProductDetailed.module.scss';
-import { iProductReponse } from '../../../types/types';
+import { ResultItemType } from '../../../types/types';
 
 export function ProductsDetailed(props: {
   queryChangeHandler: (
@@ -8,10 +8,9 @@ export function ProductsDetailed(props: {
     limit?: number,
     details?: number
   ) => void;
-  productResponse: iProductReponse;
+  productData: ResultItemType;
 }) {
-  const { queryChangeHandler, productResponse } = props;
-  const product = productResponse.data;
+  const { queryChangeHandler, productData } = props;
 
   const closeDetailedHandler = () => {
     queryChangeHandler(undefined, undefined, undefined, 0);
@@ -19,7 +18,7 @@ export function ProductsDetailed(props: {
 
   return (
     <div className={styles.item_detailed} data-testid="detail">
-      {product ? (
+      {productData ? (
         <>
           <button
             type="button"
@@ -32,19 +31,21 @@ export function ProductsDetailed(props: {
             <img
               className={styles.image}
               alt="product image"
-              src={product.images ? product.images[0] : ''}
+              src={productData.images ? productData.images[0] : ''}
             />
           </div>
-          <h3 className={styles.name}>{`${product.title}`}</h3>
-          <p className={styles.info}>{`Category: ${product.category}`}</p>
-          <p className={styles.info}>{`Brand: ${product.brand}`}</p>
-          <p className={styles.info}>{`Price: ${product.price}`}</p>
+          <h3 className={styles.name}>{`${productData.title}`}</h3>
+          <p className={styles.info}>{`Category: ${productData.category}`}</p>
+          <p className={styles.info}>{`Brand: ${productData.brand}`}</p>
+          <p className={styles.info}>{`Price: ${productData.price}`}</p>
           <p
             className={styles.info}
-          >{`Discount: ${product.discountPercentage}`}</p>
-          <p className={styles.info}>{`Stock: ${product.stock}`}</p>
-          <p className={styles.info}>{`Rating: ${product.rating}`}</p>
-          <p className={styles.info}>{`Description: ${product.description}`}</p>
+          >{`Discount: ${productData.discountPercentage}`}</p>
+          <p className={styles.info}>{`Stock: ${productData.stock}`}</p>
+          <p className={styles.info}>{`Rating: ${productData.rating}`}</p>
+          <p
+            className={styles.info}
+          >{`Description: ${productData.description}`}</p>
         </>
       ) : (
         true

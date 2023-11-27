@@ -24,12 +24,12 @@ export interface IResultResponse {
 
 export interface ISearchResponse {
   data: IResultResponse;
-  error: FetchBaseQueryError | SerializedError;
+  error: FetchBaseQueryError | SerializedError | undefined;
 }
 
-export interface iProductReponse {
+export interface IProductReponse {
   data: ResultItemType;
-  error: FetchBaseQueryError | SerializedError;
+  error: FetchBaseQueryError | SerializedError | undefined;
 }
 
 export interface IErrorBoundaryProps {
@@ -58,7 +58,7 @@ export type GetProductsProps = {
 
 export interface ISSP {
   searchResponse: ISearchResponse;
-  productResponse: iProductReponse;
+  productResponse: IProductReponse;
   detailedProductID: number;
   currentPage: number;
   searchLimit: number;

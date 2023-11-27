@@ -1,15 +1,7 @@
-// import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  IResultResponse,
-  ResultItemType,
-  iProductReponse,
-} from '../../../types/types';
+import { IResultResponse, ResultItemType } from '../../../types/types';
 import { ProductsItem } from '../ProductsItem/ProductsItem';
 
 import styles from './ProductsContainer.module.scss';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { RootState } from '../../App/appReduxStore/store';
-// import { setDetailedProductID } from '../../App/appReduxStore/reducer';
 import { ProductsDetailed } from '../ProductDetailed/ProductDetailed';
 
 export function ProductsContainer(props: {
@@ -21,14 +13,10 @@ export function ProductsContainer(props: {
   ) => void;
   searchResults: IResultResponse;
   detailedProductID: number;
-  productResponse: iProductReponse;
+  productData: ResultItemType;
 }) {
-  const {
-    queryChangeHandler,
-    searchResults,
-    detailedProductID,
-    productResponse,
-  } = props;
+  const { queryChangeHandler, searchResults, detailedProductID, productData } =
+    props;
   // const searchResults = useSelector(
   //   (state: RootState) => state.app.searchResults
   // );
@@ -67,7 +55,7 @@ export function ProductsContainer(props: {
       {detailedProductID !== 0 && (
         <ProductsDetailed
           queryChangeHandler={queryChangeHandler}
-          productResponse={productResponse}
+          productData={productData}
         />
       )}
     </div>
