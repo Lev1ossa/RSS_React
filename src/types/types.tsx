@@ -1,4 +1,4 @@
-export type UserCard = {
+export interface IUserCard {
   name: string;
   age: number;
   email: string;
@@ -6,9 +6,9 @@ export type UserCard = {
   gender: string;
   country: string;
   image: string;
-};
+}
 
-export type UserCards = UserCard[];
+export type UserCards = IUserCard[];
 
 export type State = {
   userCards: UserCards;

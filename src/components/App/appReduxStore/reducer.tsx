@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { appReduxInitialState } from '../../../utils/utils';
-import { UserCard } from '../../../types/types';
+import { appReduxInitialState } from '../../../utils/constants';
+import { IUserCard } from '../../../types/types';
 
 export const appSlice = createSlice({
   name: 'appData',
   initialState: appReduxInitialState,
   reducers: {
-    addUserCard: (state, action: PayloadAction<UserCard>) => {
+    addUserCard: (state, action: PayloadAction<IUserCard>) => {
       state.userCards.push(action.payload);
     },
   },
