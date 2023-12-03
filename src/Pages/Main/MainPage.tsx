@@ -5,7 +5,7 @@ import styles from './MainPage.module.scss';
 export function MainPage() {
   return (
     <>
-      <Header />
+      <Header pageTitle={'Main page'} />
       <main className={styles.main}>
         <UserCards />
       </main>

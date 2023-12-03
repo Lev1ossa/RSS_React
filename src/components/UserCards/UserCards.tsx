@@ -5,11 +5,13 @@ import { UserCard } from '../UserCard/UserCard';
 
 export function UserCards() {
   const userCards = useSelector((state: RootState) => state.app.userCards);
-  return (
+  return userCards.length > 0 ? (
     <div className={styles.cardsContainer}>
       {userCards.map((userCard, idx) => {
         return <UserCard userCard={userCard} key={`${userCard.name + idx}`} />;
       })}
     </div>
+  ) : (
+    <p>No Cards found</p>
   );
 }

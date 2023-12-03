@@ -1,215 +1,64 @@
-import { State } from '../types/types';
+import * as yup from 'yup';
+import { store } from '../components/App/appReduxStore/store';
 
-export const appReduxInitialState: State = {
-  // TODO: remove default card
-  userCards: [
-    {
-      name: 'Name',
-      age: 123,
-      email: 'hey@mail.ru',
-      password: 'password',
-      gender: 'male',
-      country: 'Russia',
-      image: 'test',
-    },
-  ],
-  countries: [
-    'Afghanistan',
-    'Albania',
-    'Algeria',
-    'Andorra',
-    'Angola',
-    'Anguilla',
-    'Argentina',
-    'Armenia',
-    'Aruba',
-    'Australia',
-    'Austria',
-    'Azerbaijan',
-    'Bahamas',
-    'Bahrain',
-    'Bangladesh',
-    'Barbados',
-    'Belarus',
-    'Belgium',
-    'Belize',
-    'Benin',
-    'Bermuda',
-    'Bhutan',
-    'Bolivia',
-    'Botswana',
-    'Brazil',
-    'British Virgin Islands',
-    'Brunei',
-    'Bulgaria',
-    'Burkina Faso',
-    'Burundi',
-    'Cambodia',
-    'Cameroon',
-    'Cape Verde',
-    'Cayman Islands',
-    'Chad',
-    'Chile',
-    'China',
-    'Colombia',
-    'Congo',
-    'Cook Islands',
-    'Costa Rica',
-    'Cote D Ivoire',
-    'Croatia',
-    'Cruise Ship',
-    'Cuba',
-    'Cyprus',
-    'Czech Republic',
-    'Denmark',
-    'Djibouti',
-    'Dominica',
-    'Dominican Republic',
-    'Ecuador',
-    'Egypt',
-    'El Salvador',
-    'Equatorial Guinea',
-    'Estonia',
-    'Ethiopia',
-    'Falkland Islands',
-    'Faroe Islands',
-    'Fiji',
-    'Finland',
-    'France',
-    'French Polynesia',
-    'French West Indies',
-    'Gabon',
-    'Gambia',
-    'Georgia',
-    'Germany',
-    'Ghana',
-    'Gibraltar',
-    'Greece',
-    'Greenland',
-    'Grenada',
-    'Guam',
-    'Guatemala',
-    'Guernsey',
-    'Guinea',
-    'Guinea Bissau',
-    'Guyana',
-    'Haiti',
-    'Honduras',
-    'Hong Kong',
-    'Hungary',
-    'Iceland',
-    'India',
-    'Indonesia',
-    'Iran',
-    'Iraq',
-    'Ireland',
-    'Isle of Man',
-    'Israel',
-    'Italy',
-    'Jamaica',
-    'Japan',
-    'Jersey',
-    'Jordan',
-    'Kazakhstan',
-    'Kenya',
-    'Kuwait',
-    'Kyrgyz Republic',
-    'Laos',
-    'Latvia',
-    'Lebanon',
-    'Lesotho',
-    'Liberia',
-    'Libya',
-    'Liechtenstein',
-    'Lithuania',
-    'Luxembourg',
-    'Macau',
-    'Macedonia',
-    'Madagascar',
-    'Malawi',
-    'Malaysia',
-    'Maldives',
-    'Mali',
-    'Malta',
-    'Mauritania',
-    'Mauritius',
-    'Mexico',
-    'Moldova',
-    'Monaco',
-    'Mongolia',
-    'Montenegro',
-    'Montserrat',
-    'Morocco',
-    'Mozambique',
-    'Namibia',
-    'Nepal',
-    'Netherlands',
-    'New Caledonia',
-    'New Zealand',
-    'Nicaragua',
-    'Niger',
-    'Nigeria',
-    'Norway',
-    'Oman',
-    'Pakistan',
-    'Palestine',
-    'Panama',
-    'Papua New Guinea',
-    'Paraguay',
-    'Peru',
-    'Philippines',
-    'Poland',
-    'Portugal',
-    'Puerto Rico',
-    'Qatar',
-    'Reunion',
-    'Romania',
-    'Russia',
-    'Rwanda',
-    'Samoa',
-    'San Marino',
-    'Satellite',
-    'Saudi Arabia',
-    'Senegal',
-    'Serbia',
-    'Seychelles',
-    'Sierra Leone',
-    'Singapore',
-    'Slovakia',
-    'Slovenia',
-    'South Africa',
-    'South Korea',
-    'Spain',
-    'Sri Lanka',
-    'St Lucia',
-    'St Vincent',
-    'St. Lucia',
-    'Sudan',
-    'Suriname',
-    'Swaziland',
-    'Sweden',
-    'Switzerland',
-    'Syria',
-    'Taiwan',
-    'Tajikistan',
-    'Tanzania',
-    'Thailand',
-    "Timor L'Este",
-    'Togo',
-    'Tonga',
-    'Tunisia',
-    'Turkey',
-    'Turkmenistan',
-    'Uganda',
-    'Ukraine',
-    'United Arab Emirates',
-    'United Kingdom',
-    'Uruguay',
-    'Uzbekistan',
-    'Venezuela',
-    'Vietnam',
-    'Yemen',
-    'Zambia',
-    'Zimbabwe',
-  ],
-};
+export const MAX_FILE_SIZE = 102400;
+
+const savedCountries = store.getState().app.countries;
+
+const baseSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required('Enter your name')
+    .matches(/^[A-ZА-Я]([]*)/, { message: 'First letter is not uppercased' }),
+  age: yup
+    .number()
+    .required('Enter your age')
+    .positive('Not positive')
+    .typeError('Not a number'),
+  email: yup.string().email().required('Invalid email'),
+  confirmPassword: yup
+    .string()
+    .required()
+    .oneOf([yup.ref('password')], 'Passwords must be same'),
+  gender: yup.string().required(),
+  tc: yup.string().matches(/true/, { message: 'Agree with T&C to continue' }),
+  image: yup
+    .mixed<FileList>()
+    .nullable()
+    .required('Image is reqired')
+    .test(
+      'size',
+      'Image size should be less then 100KB',
+      (value) =>
+        value && Array.from(value).every((item) => item.size <= MAX_FILE_SIZE)
+    )
+    .test(
+      'type',
+      'Image type should be "png" or "jpeg"',
+      (value) =>
+        value &&
+        Array.from(value).every(
+          (file) => file.type === 'image/png' || file.type === 'image/jpeg'
+        )
+    ),
+  country: yup
+    .string()
+    .required()
+    .test(
+      'country',
+      'Choose country from list',
+      (value) => !!value && savedCountries.includes(value)
+    ),
+});
+
+export const passwordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .matches(RegExp('(.*[a-z].*)'), 'Lowercase')
+    .matches(RegExp('(.*[A-Z].*)'), 'Uppercase')
+    .matches(RegExp('(.*\\d.*)'), 'Number')
+    .matches(RegExp('[!@#$%^&*(),.?":{}|<>]'), 'Special')
+    .required('and be not empty'),
+});
+
+export const schema = baseSchema.concat(passwordSchema);

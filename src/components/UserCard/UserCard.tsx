@@ -30,9 +30,9 @@ export function UserCard(props: { userCard: IUserCard }) {
         <div className={styles.cardLabel}>Country:</div>
         <div className={styles.cardText}>{userCard.country}</div>
       </div>
-      <div className={styles.CardBlock}>
+      <div className={styles.ImgBlock}>
         <div className={styles.cardLabel}>Image:</div>
-        <div className={styles.cardImage}></div>
+        <img className={styles.cardImage} src={userCard.image}></img>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { appReduxInitialState } from '../../../utils/constants';
+import { appReduxInitialState } from './utils';
 import { IUserCard } from '../../../types/types';
 
 export const appSlice = createSlice({
