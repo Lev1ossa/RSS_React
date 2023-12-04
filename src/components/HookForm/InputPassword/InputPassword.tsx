@@ -14,12 +14,14 @@ export function InputPassword(props: {
   const { register, validatePassword, passwordHandler, errors } = props;
   const passwordInput = register('password');
   const { onChange, ref } = passwordInput;
-  const errorMessage = errors
-    ? errors.reduce(
-        (result, error) => `${result} ${error},`,
-        'Password should contain '
-      )
-    : '';
+  const errorMessage =
+    errors && errors.length
+      ? errors.reduce(
+          (result, error) => `${result} ${error},`,
+          'Password should contain '
+        )
+      : '';
+
   return (
     <label className={styles.inputBlock}>
       Password:
@@ -34,7 +36,9 @@ export function InputPassword(props: {
         type={'password'}
       />
       <p className={styles.error}>
-        {errors ? errorMessage.slice(0, errorMessage.length - 1) : ''}
+        {errors && errors.length
+          ? errorMessage.slice(0, errorMessage.length - 1)
+          : ''}
       </p>
     </label>
   );
