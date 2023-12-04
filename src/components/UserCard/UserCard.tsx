@@ -5,7 +5,7 @@ export function UserCard(props: { userCard: IUserCard }) {
   const { userCard } = props;
 
   return (
-    <div className={styles.CardContainer}>
+    <>
       <div className={styles.CardBlock}>
         <div className={styles.cardLabel}>Name:</div>
         <div className={styles.cardText}>{userCard.name}</div>
@@ -34,6 +34,6 @@ export function UserCard(props: { userCard: IUserCard }) {
         <div className={styles.cardLabel}>Image:</div>
         <img className={styles.cardImage} src={userCard.image}></img>
       </div>
-    </div>
+    </>
   );
 }

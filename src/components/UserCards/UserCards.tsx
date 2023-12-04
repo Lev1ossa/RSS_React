@@ -8,7 +8,11 @@ export function UserCards() {
   return userCards.length > 0 ? (
     <div className={styles.cardsContainer}>
       {userCards.map((userCard, idx) => {
-        return <UserCard userCard={userCard} key={`${userCard.name + idx}`} />;
+        return (
+          <div className={styles.CardContainer} key={`${userCard.name + idx}`}>
+            <UserCard userCard={userCard} />
+          </div>
+        );
       })}
     </div>
   ) : (

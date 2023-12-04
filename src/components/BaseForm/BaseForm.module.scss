@@ -1,4 +1,4 @@
-.hookForm {
+.baseForm {
   width: 600px;
 }
 
@@ -27,6 +27,21 @@
   height: 5px;
   width: 50px;
   background-color: inherit;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit {
+  width: 50px;
+}
+
+.formContainter {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .level1 {

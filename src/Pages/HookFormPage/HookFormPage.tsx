@@ -7,7 +7,6 @@ export function HookFormPage() {
     <>
       <Header pageTitle={'Hook form page'} />
       <main className={styles.main}>
-        <p>HookFormPage</p>
         <HookForm />
       </main>
     </>

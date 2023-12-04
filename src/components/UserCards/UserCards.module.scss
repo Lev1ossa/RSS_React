@@ -4,4 +4,22 @@
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  .CardContainer:last-child {
+    animation: blink 1s 6;
+    border-color: yellowgreen;
+  }
+}
+
+.CardContainer {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid black;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+@keyframes blink {
+  50% {
+    border-color:black;
+  }
 }

@@ -4,10 +4,14 @@ import { iRegistrationData } from '../../../types/types';
 
 export function InputPassword(props: {
   register: UseFormRegister<iRegistrationData>;
-  validatePassword: (password: string) => Promise<void>;
+  validatePassword: (
+    password: string,
+    passwordHandler: (passwordErrors: string[] | null) => void
+  ) => Promise<void>;
+  passwordHandler: (passwordErrors: string[] | null) => void;
   errors: string[] | null;
 }) {
-  const { register, validatePassword, errors } = props;
+  const { register, validatePassword, passwordHandler, errors } = props;
   const passwordInput = register('password');
   const { onChange, ref } = passwordInput;
   const errorMessage = errors
@@ -21,7 +25,7 @@ export function InputPassword(props: {
       Password:
       <input
         onChange={async (event) => {
-          validatePassword(event.target.value).then(() => {
+          validatePassword(event.target.value, passwordHandler).then(() => {
             onChange(event);
           });
         }}

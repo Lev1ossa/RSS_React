@@ -1,3 +1,4 @@
+import { BaseForm } from '../../components/BaseForm/BaseForm';
 import { Header } from '../../components/Header/Header';
 import styles from './BaseFormPage.module.scss';
 
@@ -6,7 +7,7 @@ export function BaseFormPage() {
     <>
       <Header pageTitle={'Base form page'} />
       <main className={styles.main}>
-        <p>BaseFormPage</p>
+        <BaseForm />
       </main>
     </>
   );

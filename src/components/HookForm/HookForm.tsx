@@ -5,17 +5,25 @@ import styles from './HookForm.module.scss';
 import { RootState } from '../App/appReduxStore/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { passwordSchema, schema } from '../../utils/constants';
-import { ValidationError } from 'yup';
+import { schema } from '../../utils/constants';
 import { InputPassword } from './InputPassword/InputPassword';
 import { useNavigate } from 'react-router-dom';
 import { addUserCard } from '../App/appReduxStore/reducer';
-import { getBase64 } from '../../utils/utils';
+import {
+  getBase64,
+  getPasswordStrengthClass,
+  validatePassword,
+} from '../../utils/utils';
 
 export function HookForm() {
   const [passwordErrorsList, setPasswordErrorsList] = useState<string[] | null>(
     null
   );
+
+  const passwordHandler = (passwordErrors: string[] | null) => {
+    setPasswordErrorsList(passwordErrors);
+  };
+
   const countries = useSelector((state: RootState) => state.app.countries);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,39 +60,7 @@ export function HookForm() {
     resolver: yupResolver(schema),
   });
 
-  const getPasswordStrengthClass = () => {
-    if (!passwordErrorsList) {
-      return `${styles.noValidation}`;
-    }
-    if (passwordErrorsList.length === 4) {
-      return `${styles.passwordStrength}`;
-    } else if (passwordErrorsList.length === 3) {
-      return `${styles.passwordStrength} ${styles.level1}`;
-    } else if (passwordErrorsList.length === 2) {
-      return `${styles.passwordStrength} ${styles.level2}`;
-    } else if (passwordErrorsList.length === 1) {
-      return `${styles.passwordStrength} ${styles.level3}`;
-    } else if (passwordErrorsList.length === 0) {
-      return `${styles.passwordStrength} ${styles.level4}`;
-    }
-  };
-
-  async function validatePassword(password: string) {
-    try {
-      const result = await passwordSchema.validate(
-        { isUsageNotRequired: true, password },
-        { abortEarly: false }
-      );
-      if (!!result) {
-        setPasswordErrorsList([]);
-      }
-    } catch (err) {
-      const error = err as ValidationError;
-      setPasswordErrorsList(error.errors);
-    }
-  }
-
-  console.log(getPasswordStrengthClass());
+  console.log(errors);
 
   return (
     <div className={styles.hookForm}>
@@ -113,9 +89,10 @@ export function HookForm() {
           <InputPassword
             register={register}
             validatePassword={validatePassword}
+            passwordHandler={passwordHandler}
             errors={passwordErrorsList}
           />
-          <div className={getPasswordStrengthClass()}>
+          <div className={getPasswordStrengthClass(passwordErrorsList, styles)}>
             <div className={styles.strengthBar} />
             <div className={styles.strengthBar} />
             <div className={styles.strengthBar} />
@@ -132,6 +109,7 @@ export function HookForm() {
               <option>Male</option>
               <option>Female</option>
             </select>
+            <p className={styles.error}>{errors.gender?.message}</p>
           </label>
           <label className={styles.inputBlock}>
             Country:
@@ -149,7 +127,6 @@ export function HookForm() {
           </label>
           <label className={styles.inputBlock}>
             Image:
-            <span className={styles.button}>Image</span>
             <input
               className={styles.fileInput}
               {...register('image')}
@@ -164,7 +141,7 @@ export function HookForm() {
           </label>
         </div>
         <button
-          className={styles.submit_button}
+          className={styles.submit}
           type="submit"
           disabled={!isDirty || !isValid}
         >

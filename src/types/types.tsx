@@ -26,3 +26,34 @@ export interface iRegistrationData {
   country: string;
   image: FileList;
 }
+
+// export interface IErrors {
+//   name: string[];
+//   age: string[];
+//   email: string[];
+//   password: string[] | null;
+//   confirmPassword: string[];
+//   gender: string[];
+//   country: string[];
+//   image: string[];
+//   tc: string[];
+//   [key: string]: string[] | null;
+// }
+
+export interface IErrors {
+  // current: {
+  name: string[];
+  age: string[];
+  email: string[];
+  password: string[] | null;
+  confirmPassword: string[];
+  gender: string[];
+  country: string[];
+  image: string[];
+  tc: string[];
+  // };
+}
+
+// export interface IErrors {
+//   [key: string]: string[] | null;
+// }
