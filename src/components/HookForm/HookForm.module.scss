@@ -1,0 +1,62 @@
+.hookForm {
+  width: 600px;
+}
+
+.error {
+  height: 20px;
+}
+
+.passwordStrength {
+  width: 200px;
+  height: 5px;
+  background-color: grey;
+  display: flex;
+}
+
+.noValidation {
+  width: 200px;
+  height: 5px;
+  opacity: 0;
+}
+
+.strengthBar {
+  height: 5px;
+  width: 50px;
+  background-color: inherit;
+}
+
+.level1 {
+  & .strengthBar:first-child {
+      background-color: red;
+  }
+}
+
+.level2 {
+  & .strengthBar:first-child {
+    background-color: orangered;
+  }
+
+  & .strengthBar:nth-child(2) {
+    background-color: orangered;
+  }
+}
+
+.level3 {
+  & .strengthBar:first-child {
+    background-color: yellowgreen;
+  }
+
+  & .strengthBar:nth-child(2) {
+    background-color: yellowgreen;
+  }
+
+  & .strengthBar:nth-child(3) {
+    background-color: yellowgreen;
+  }
+}
+
+.level4 {
+  & .strengthBar {
+    background-color: green;
+}
+}

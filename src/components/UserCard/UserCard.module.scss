@@ -1,0 +1,16 @@
+.CardBlock {
+  display: flex;
+  gap: 5px;
+}
+
+.ImgBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardImage {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}

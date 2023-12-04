@@ -1,0 +1,27 @@
+.header {
+  max-width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerBlock {
+  display: flex;
+  
+}
+
+.navList {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .link {
+    text-decoration: none
+  }
+
+  .link:hover {
+    color: blue;
+  }
+}
