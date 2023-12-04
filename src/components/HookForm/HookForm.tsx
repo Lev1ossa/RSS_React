@@ -60,8 +60,6 @@ export function HookForm() {
     resolver: yupResolver(schema),
   });
 
-  console.log(errors);
-
   return (
     <div className={styles.hookForm}>
       <h2 className={styles.title}>Register</h2>

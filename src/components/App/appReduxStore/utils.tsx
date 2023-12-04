@@ -1,18 +1,7 @@
 import { State } from '../../../types/types';
 
 export const appReduxInitialState: State = {
-  // TODO: remove default card
-  userCards: [
-    {
-      name: 'Name',
-      age: 123,
-      email: 'hey@mail.ru',
-      password: 'password',
-      gender: 'male',
-      country: 'Russia',
-      image: 'test',
-    },
-  ],
+  userCards: [],
   countries: [
     'Afghanistan',
     'Albania',
